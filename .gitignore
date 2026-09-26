@@ -1,0 +1,29 @@
+# Python virtual environments and generated files
+backend/venv/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.py[cod]
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+node_modules/
+dist/
+
+# Local environment settings and secrets
+.env
+.env.*
+
+# IDE, editor, and operating-system temporary files
+.idea/
+.vscode/
+.history/
+*.swp
+*.swo
+*.suo
+*.user
+*~
+.DS_Store
+Thumbs.db

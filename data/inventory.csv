@@ -1,0 +1,16 @@
+product_id,product_name,category,season,current_stock,units_sold_last_30_days,days_in_inventory,price,cost_price,last_sale_date
+P001,Classic Cotton T-Shirt,Tops,All Season,20,34,58,24.00,9.50,2026-09-25
+P002,Slim Straight Jeans,Denim,All Season,41,7,126,79.00,32.00,2026-09-12
+P003,Linen Button-Up Shirt,Tops,Spring/Summer,33,4,103,62.00,24.00,2026-09-06
+P004,Floral Midi Dress,Dresses,Spring/Summer,12,16,49,84.00,35.00,2026-09-24
+P005,Merino Crewneck Sweater,Knitwear,Fall/Winter,29,5,88,88.00,37.00,2026-09-11
+P006,Quilted Puffer Jacket,Outerwear,Fall/Winter,38,4,115,148.00,65.00,2026-09-08
+P007,Running Leggings,Activewear,All Season,46,6,107,54.00,22.00,2026-09-10
+P008,Leather Belt,Accessories,All Season,27,18,72,42.00,14.00,2026-09-24
+P009,Canvas Tote Bag,Accessories,Spring/Summer,64,9,95,20.00,5.00,2026-09-22
+P010,White Low-Top Sneakers,Footwear,All Season,18,14,61,98.00,47.00,2026-09-25
+P011,Cargo Trousers,Bottoms,Fall/Winter,35,3,132,82.00,34.00,2026-09-02
+P012,Knit Beanie,Accessories,Fall/Winter,50,1,144,24.00,8.00,2026-08-28
+P013,Lightweight Cardigan,Knitwear,Spring/Fall,31,8,76,69.00,28.00,2026-09-18
+P014,Rain Jacket,Outerwear,All Season,15,17,53,112.00,49.00,2026-09-25
+P015,Party Clutch,Accessories,All Season,39,2,118,48.00,17.00,2026-09-07
