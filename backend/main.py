@@ -13,6 +13,8 @@ INVENTORY_FILE = Path(__file__).resolve().parent.parent / "data" / "inventory.cs
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+    
+"https://reroute-ihuajnapo-tungapindisheethal-5834s-projects.vercel.app",
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:5175",
