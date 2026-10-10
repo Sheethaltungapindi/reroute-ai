@@ -9,17 +9,22 @@ from recommendation_engine import get_recommendations
 app = FastAPI(title="ReRoute AI Backend")
 INVENTORY_FILE = Path(__file__).resolve().parent.parent / "data" / "inventory.csv"
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "http://localhost:5174",
         "http://localhost:5175",
         "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
         "http://127.0.0.1:5175",
     ],
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 @app.get("/api/health")
