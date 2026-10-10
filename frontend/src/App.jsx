@@ -419,7 +419,7 @@ function App() {
     setRefreshKey((current) => current + 1);
   }
 
-  ```javascript
+  
 useEffect(() => {
   let isActive = true;
 
@@ -452,7 +452,6 @@ useEffect(() => {
     isActive = false;
   };
 }, []);
-```
 
   useEffect(() => {
     let retryTimer;
