@@ -82,7 +82,19 @@ function Logo() {
   );
 }
 
-function InventoryPreview({ recommendations, predictions, summary, totalCount, filter, onFilterChange, isLoading, error }) {
+
+function InventoryPreview({
+  recommendations,
+  predictions,
+  summary,
+  totalCount,
+  filter,
+  onFilterChange,
+  isLoading,
+  error,
+  onRefresh,
+}) {
+
   return (
     <div className="preview-wrap" aria-label="Inventory recommendations">
       <div className="preview-halo" aria-hidden="true" />
@@ -130,15 +142,30 @@ function InventoryPreview({ recommendations, predictions, summary, totalCount, f
             </div>
           </section>
 
-          <div className="preview-heading">
-            <div>
-              <p className="eyebrow">LIVE INVENTORY DATA</p>
-              <h2>Inventory Recommendations</h2>
-            </div>
-            {!isLoading && !error && (
-              <span className="preview-count">{recommendations.length} / {totalCount}</span>
-            )}
-          </div>
+          
+<div className="preview-heading">
+  <div>
+    <p className="eyebrow">LIVE INVENTORY DATA</p>
+    <h2>Inventory Recommendations</h2>
+  </div>
+
+  <div className="preview-heading-actions">
+    {!isLoading && !error && (
+      <span className="preview-count">
+        {recommendations.length} / {totalCount}
+      </span>
+    )}
+
+    <button
+      className="refresh-button"
+      type="button"
+      onClick={onRefresh}
+      disabled={isLoading}
+    >
+      ↻ Refresh
+    </button>
+  </div>
+</div>
 
           <div className="recommendation-filters" aria-label="Filter recommendations">
             {recommendationFilters.map((option) => (
@@ -358,6 +385,8 @@ function ActionSimulator({ recommendations, isLoading, error }) {
 }
 
 function App() {
+  
+  const [refreshKey, setRefreshKey] = useState(0);
   const [backendStatus, setBackendStatus] = useState('checking');
   const [recommendations, setRecommendations] = useState([]);
   const [predictions, setPredictions] = useState({});
@@ -383,54 +412,56 @@ function App() {
     ).length,
   };
 
-  useEffect(() => {
-    let retryTimer;
-    let isActive = true;
+  
+  function refreshInventory() {
+    setRecommendationsLoading(true);
+    setRecommendationsError('');
+    setRefreshKey((current) => current + 1);
+  }
 
-    function checkBackendHealth() {
-      fetch('http://127.0.0.1:8000/api/health')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Backend health check failed.');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (!isActive) {
-            return;
-          }
+  ```javascript
+useEffect(() => {
+  let isActive = true;
 
-          if (data.status === 'ok') {
-            setBackendStatus('connected');
-          } else {
-            setBackendStatus('offline');
-            retryTimer = window.setTimeout(checkBackendHealth, 5000);
-          }
-        })
-        .catch(() => {
-          if (!isActive) {
-            return;
-          }
+  function checkBackendHealth() {
+    fetch('https://reroute-ai-backend.onrender.com/api/health')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Backend health check failed.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!isActive) return;
 
+        if (data.status === 'ok') {
+          setBackendStatus('connected');
+        } else {
           setBackendStatus('offline');
-          retryTimer = window.setTimeout(checkBackendHealth, 5000);
-        });
-    }
+        }
+      })
+      .catch(() => {
+        if (!isActive) return;
+        setBackendStatus('offline');
+      });
+  }
 
-    checkBackendHealth();
+  checkBackendHealth();
 
-    return () => {
-      isActive = false;
-      window.clearTimeout(retryTimer);
-    };
-  }, []);
+  return () => {
+    isActive = false;
+  };
+}, []);
+```
 
   useEffect(() => {
     let retryTimer;
     let isActive = true;
 
     function loadRecommendations() {
-      fetch('http://127.0.0.1:8000/api/recommendations')
+      
+fetch('https://reroute-ai-backend.onrender.com/api/recommendations')
+
         .then((response) => {
           if (!response.ok) {
             throw new Error('The recommendations request failed.');
@@ -479,7 +510,7 @@ function App() {
       isActive = false;
       window.clearTimeout(retryTimer);
     };
-  }, []);
+   }, [refreshKey]);
 
   useEffect(() => {
     if (recommendations.length === 0) {
@@ -553,6 +584,7 @@ function App() {
             <div className="hero-footnote"><span className="footnote-line" /> Clear recommendations. Reasons included.</div>
           </div>
           <InventoryPreview
+          onRefresh={refreshInventory}
             recommendations={filteredRecommendations}
             predictions={predictions}
             summary={executiveSummary}
